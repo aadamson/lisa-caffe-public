@@ -22,7 +22,7 @@ import skimage.io
 import copy
 
 flow_frames = 'flow_images/'
-RGB_frames = 'frames/'
+RGB_frames = '/Users/alex'
 test_frames = 16 
 train_frames = 16
 test_buffer = 3
@@ -90,7 +90,7 @@ class sequenceGeneratorVideo(object):
       frames = []
 
       for i in range(rand_frame,rand_frame+self.clip_length):
-        frames.append(self.video_dict[key]['frames'] %i)
+        frames.append(self.video_dict[key]['frames'][i])
      
       im_paths.extend(frames) 
     
@@ -149,12 +149,15 @@ class videoRead(caffe.Layer):
     current_line = 0
     self.video_order = []
     for ix, line in enumerate(f_lines):
-      video = line.split(' ')[0].split('/')[1]
+      video = line.split(' ')[0]
       l = int(line.split(' ')[1])
-      frames = glob.glob('%s%s/*.jpg' %(self.path_to_images, video))
+      video_dir = '%s%s/*.jpg' % (self.path_to_images, video)
+      frames = glob.glob(video_dir)
       num_frames = len(frames)
+      if num_frames == 0 or num_frames < train_frames + 2:
+        continue
       video_dict[video] = {}
-      video_dict[video]['frames'] = frames[0].split('.')[0] + '.%04d.jpg'
+      video_dict[video]['frames'] = frames
       video_dict[video]['reshape'] = (240,320)
       video_dict[video]['crop'] = (227, 227)
       video_dict[video]['num_frames'] = num_frames
@@ -294,7 +297,7 @@ class videoReadTrain_RGB(videoRead):
     self.height = 227
     self.width = 227
     self.path_to_images = RGB_frames 
-    self.video_list = 'ucf101_split1_trainVideos.txt' 
+    self.video_list = 'ckp_bu4dfe_seq_lab_train.txt' 
 
 class videoReadTest_RGB(videoRead):
 
@@ -309,4 +312,4 @@ class videoReadTest_RGB(videoRead):
     self.height = 227
     self.width = 227
     self.path_to_images = RGB_frames 
-    self.video_list = 'ucf101_split1_testVideos.txt' 
+    self.video_list = 'ckp_bu4dfe_seq_lab_test.txt' 
