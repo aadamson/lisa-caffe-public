@@ -298,7 +298,7 @@ class videoReadTrain_RGB(videoRead):
     self.height = crop_size
     self.width = crop_size
     self.path_to_images = RGB_frames 
-    self.video_list = 'data/bu4dfe_seq_lab_train.txt' 
+    self.video_list = 'data/ckp_bu4dfe_seq_lab_test.txt' 
 
 class videoReadTest_RGB(videoRead):
 
@@ -313,4 +313,4 @@ class videoReadTest_RGB(videoRead):
     self.height = crop_size
     self.width = crop_size
     self.path_to_images = RGB_frames 
-    self.video_list = 'data/bu4dfe_seq_lab_test.txt' 
+    self.video_list = 'data/ckp_bu4dfe_seq_lab_test.txt' 
