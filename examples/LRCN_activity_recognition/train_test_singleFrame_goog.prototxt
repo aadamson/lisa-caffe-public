@@ -15,7 +15,7 @@ layer {
     mean_value: 123
   }
   image_data_param {
-    source: "data/ckp_bu4dfe_frame_lab_train.txt"
+    source: "data/bu4dfe_frame_lab_train.txt"
     root_folder: "frames/"
     batch_size: 64
     new_height: 240
@@ -39,7 +39,7 @@ layer {
     mean_value: 123
   }
   image_data_param {
-    source: "data/ckp_bu4dfe_frame_lab_test.txt"
+    source: "data/bu4dfe_frame_lab_test.txt"
     root_folder: "frames/"
     batch_size: 64
     new_height: 240
