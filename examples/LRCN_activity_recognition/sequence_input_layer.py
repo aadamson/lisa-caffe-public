@@ -28,6 +28,8 @@ train_frames = 16
 test_buffer = 1
 train_buffer = 4
 crop_size = 224
+image_height = 320
+image_width = 240
 
 def processImageCrop(im_info, transformer, flow):
   im_path = im_info[0]
@@ -157,7 +159,7 @@ class videoRead(caffe.Layer):
         continue
       video_dict[video] = {}
       video_dict[video]['frames'] = frames
-      video_dict[video]['reshape'] = (240,320)
+      video_dict[video]['reshape'] = (image_height,image_width)
       video_dict[video]['crop'] = (crop_size, crop_size)
       video_dict[video]['num_frames'] = num_frames
       video_dict[video]['label'] = l
@@ -296,7 +298,7 @@ class videoReadTrain_RGB(videoRead):
     self.height = crop_size
     self.width = crop_size
     self.path_to_images = RGB_frames 
-    self.video_list = 'data/ckp_bu4dfe_seq_lab_train.txt' 
+    self.video_list = 'data/bu4dfe_seq_lab_train.txt' 
 
 class videoReadTest_RGB(videoRead):
 
@@ -311,4 +313,4 @@ class videoReadTest_RGB(videoRead):
     self.height = crop_size
     self.width = crop_size
     self.path_to_images = RGB_frames 
-    self.video_list = 'data/ckp_bu4dfe_seq_lab_test.txt' 
+    self.video_list = 'data/bu4dfe_seq_lab_test.txt' 
