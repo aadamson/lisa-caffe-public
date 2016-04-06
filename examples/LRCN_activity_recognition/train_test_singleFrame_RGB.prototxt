@@ -9,16 +9,15 @@ layer {
   }
   transform_param {
     mirror: true
-    crop_size: 227
-    mean_value: 103.939
-    mean_value: 116.779
-    mean_value: 123.68
-    flow: false
+    crop_size: 224
+    mean_value: 104
+    mean_value: 117
+    mean_value: 123
   }
   image_data_param {
-    source: "data/ucf101_singleFrame_RGB_train_split1.txt"
+    source: "data/bu4dfe_frame_lab_train.txt"
     root_folder: "frames/"
-    batch_size: 128
+    batch_size: 64
     new_height: 240
     new_width: 320
   }
@@ -34,16 +33,15 @@ layer {
   }
   transform_param {
     mirror: true
-    crop_size: 227
-    mean_value: 103.939
-    mean_value: 116.779
-    mean_value: 123.68
-    flow: false
+    crop_size: 224
+    mean_value: 104
+    mean_value: 117
+    mean_value: 123
   }
   image_data_param {
-    source: "data/ucf101_singleFrame_RGB_test_split1.txt"
+    source: "data/bu4dfe_frame_lab_test.txt"
     root_folder: "frames/"
-    batch_size: 128
+    batch_size: 64
     new_height: 240
     new_width: 320
   }
