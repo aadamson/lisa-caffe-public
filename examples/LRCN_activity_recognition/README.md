@@ -5,6 +5,8 @@ Chicago
 
 Please see http://www.eecs.berkeley.edu/~lisa_anne/LRCN_video for detailed instructions on how to reimplement experiments and download pre-trained models.
 
+Make sure frames/ is either the root of the file subpaths in the image files and sequence files or that frames/ is a sym-link to the real root.
+
 To run from EC2: 
 From Cardinal, call
 ```bash

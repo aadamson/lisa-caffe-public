@@ -22,7 +22,7 @@ import skimage.io
 import copy
 
 flow_frames = 'flow_images/'
-RGB_frames = '/home/ubuntu'
+RGB_frames = 'frames/'
 test_frames = 16 
 train_frames = 16
 test_buffer = 1
@@ -265,7 +265,7 @@ class videoReadTrain_flow(videoRead):
     self.height = 227
     self.width = 227
     self.path_to_images = flow_frames 
-    self.video_list = 'ucf101_split1_trainVideos.txt' 
+    self.video_list = 'data/ucf101_split1_trainVideos.txt' 
 
 class videoReadTest_flow(videoRead):
 
@@ -280,7 +280,7 @@ class videoReadTest_flow(videoRead):
     self.height = 227
     self.width = 227
     self.path_to_images = flow_frames 
-    self.video_list = 'ucf101_split1_testVideos.txt' 
+    self.video_list = 'data/ucf101_split1_testVideos.txt' 
 
 class videoReadTrain_RGB(videoRead):
 
@@ -295,7 +295,7 @@ class videoReadTrain_RGB(videoRead):
     self.height = 227
     self.width = 227
     self.path_to_images = RGB_frames 
-    self.video_list = 'ckp_bu4dfe_seq_lab_train.txt' 
+    self.video_list = 'data/ckp_bu4dfe_seq_lab_train.txt' 
 
 class videoReadTest_RGB(videoRead):
 
@@ -310,4 +310,4 @@ class videoReadTest_RGB(videoRead):
     self.height = 227
     self.width = 227
     self.path_to_images = RGB_frames 
-    self.video_list = 'ckp_bu4dfe_seq_lab_test.txt' 
+    self.video_list = 'data/ckp_bu4dfe_seq_lab_test.txt' 
