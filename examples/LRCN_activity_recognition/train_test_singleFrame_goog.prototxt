@@ -18,8 +18,8 @@ layer {
     source: "data/bu4dfe_frame_lab_train.txt"
     root_folder: "frames/"
     batch_size: 64
-    new_height: 240
-    new_width: 320
+    new_height: 320
+    new_width: 240
   }
 }
 layer {
@@ -41,9 +41,9 @@ layer {
   image_data_param {
     source: "data/bu4dfe_frame_lab_test.txt"
     root_folder: "frames/"
-    batch_size: 64
-    new_height: 240
-    new_width: 320
+    batch_size: 16
+    new_height: 320
+    new_width: 240
   }
 }
 layer {
