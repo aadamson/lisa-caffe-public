@@ -7,11 +7,11 @@ Please see http://www.eecs.berkeley.edu/~lisa_anne/LRCN_video for detailed instr
 
 To run from EC2: 
 From Cardinal, call
-``` 
+```bash
 sshfs YOUR-SUNET-ID@sherlock:/scratch/PI/dpwall/autism_glass/data ~/Volumes/FaceData/Databases
 ```
 
 From EC2, call
-```
+```bash
 sshfs YOUR-SUNET-ID@cardinal.stanford.edu:/afs/ir.stanford.edu/users/Y/O/YOUR-SUNET-ID/Volumes/FaceData/Databases /home/ubuntu/Volumes/FaceData/Databases
 ```
