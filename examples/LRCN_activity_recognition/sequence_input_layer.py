@@ -22,11 +22,11 @@ import skimage.io
 import copy
 
 flow_frames = 'flow_images/'
-RGB_frames = '/Users/alex'
+RGB_frames = '/home/ubuntu'
 test_frames = 16 
 train_frames = 16
-test_buffer = 3
-train_buffer = 24
+test_buffer = 1
+train_buffer = 4
 
 def processImageCrop(im_info, transformer, flow):
   im_path = im_info[0]
@@ -86,11 +86,9 @@ class sequenceGeneratorVideo(object):
       im_crop.extend([(r0, r1, r0+video_crop[0], r1+video_crop[1])]*self.clip_length)     
       f = random.randint(0,1)
       im_flip.extend([f]*self.clip_length)
-      rand_frame = int(random.random()*(self.video_dict[key]['num_frames']-self.clip_length)+1+1)
-      frames = []
+      rand_frame = random.randint(0, self.video_dict[key]['num_frames'] - self.clip_length - 1)
 
-      for i in range(rand_frame,rand_frame+self.clip_length):
-        frames.append(self.video_dict[key]['frames'][i])
+      frames = [self.video_dict[key]['frames'][i] for i in range(rand_frame,rand_frame+self.clip_length)]
      
       im_paths.extend(frames) 
     
