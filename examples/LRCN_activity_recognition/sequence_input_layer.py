@@ -27,6 +27,7 @@ test_frames = 16
 train_frames = 16
 test_buffer = 1
 train_buffer = 4
+crop_size = 224
 
 def processImageCrop(im_info, transformer, flow):
   im_path = im_info[0]
@@ -108,7 +109,7 @@ def advance_batch(result, sequence_generator, image_processor, pool):
     result['data'] = pool.map(image_processor, im_info)
     result['label'] = label_r
     cm = np.ones(len(label_r))
-    cm[0::16] = 0
+    cm[0::sequence_generator.clip_length] = 0
     result['clip_markers'] = cm
 
 class BatchAdvancer():
@@ -131,8 +132,8 @@ class videoRead(caffe.Layer):
     self.N = self.buffer_size*self.frames
     self.idx = 0
     self.channels = 3
-    self.height = 227
-    self.width = 227
+    self.height = crop_size
+    self.width = crop_size
     self.path_to_images = RGB_frames 
     self.video_list = 'ucf101_split1_testVideos.txt' 
 
@@ -157,7 +158,7 @@ class videoRead(caffe.Layer):
       video_dict[video] = {}
       video_dict[video]['frames'] = frames
       video_dict[video]['reshape'] = (240,320)
-      video_dict[video]['crop'] = (227, 227)
+      video_dict[video]['crop'] = (crop_size, crop_size)
       video_dict[video]['num_frames'] = num_frames
       video_dict[video]['label'] = l
       self.video_order.append(video) 
@@ -174,9 +175,9 @@ class videoRead(caffe.Layer):
       image_mean = [128, 128, 128]
       self.transformer.set_is_flow('data_in', True)
     else:
-      image_mean = [103.939, 116.779, 128.68]
+      image_mean = [104, 117, 123]
       self.transformer.set_is_flow('data_in', False)
-    channel_mean = np.zeros((3,227,227))
+    channel_mean = np.zeros((3,crop_size,crop_size))
     for channel_index, mean_val in enumerate(image_mean):
       channel_mean[channel_index, ...] = mean_val
     self.transformer.set_mean('data_in', channel_mean)
@@ -262,8 +263,8 @@ class videoReadTrain_flow(videoRead):
     self.N = self.buffer_size*self.frames
     self.idx = 0
     self.channels = 3
-    self.height = 227
-    self.width = 227
+    self.height = crop_size
+    self.width = crop_size
     self.path_to_images = flow_frames 
     self.video_list = 'data/ucf101_split1_trainVideos.txt' 
 
@@ -277,8 +278,8 @@ class videoReadTest_flow(videoRead):
     self.N = self.buffer_size*self.frames
     self.idx = 0
     self.channels = 3
-    self.height = 227
-    self.width = 227
+    self.height = crop_size
+    self.width = crop_size
     self.path_to_images = flow_frames 
     self.video_list = 'data/ucf101_split1_testVideos.txt' 
 
@@ -292,8 +293,8 @@ class videoReadTrain_RGB(videoRead):
     self.N = self.buffer_size*self.frames
     self.idx = 0
     self.channels = 3
-    self.height = 227
-    self.width = 227
+    self.height = crop_size
+    self.width = crop_size
     self.path_to_images = RGB_frames 
     self.video_list = 'data/ckp_bu4dfe_seq_lab_train.txt' 
 
@@ -307,7 +308,7 @@ class videoReadTest_RGB(videoRead):
     self.N = self.buffer_size*self.frames
     self.idx = 0
     self.channels = 3
-    self.height = 227
-    self.width = 227
+    self.height = crop_size
+    self.width = crop_size
     self.path_to_images = RGB_frames 
     self.video_list = 'data/ckp_bu4dfe_seq_lab_test.txt' 
