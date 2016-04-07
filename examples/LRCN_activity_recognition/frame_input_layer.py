@@ -20,7 +20,7 @@ from multiprocessing import Pool
 from threading import Thread
 import skimage.io
 import copy
-import cv2
+import scipy
 
 flow_frames = 'flow_images/'
 RGB_frames = 'frames'
@@ -49,7 +49,7 @@ def processImageCrop(im_info, transformer, flow):
     rows = im_reshape[0]
     cols = im_reshape[1]
     M = cv2.getRotationMatrix2D((cols/2,rows/2),im_rotate,1)
-    data_in = cv2.warpAffine(data_in,M,(cols,rows))
+    data_in = scipy.ndimage.interpolation.rotate(data_in,im_rotate,reshape=False)
 
   processed_image = transformer.preprocess('data_in',data_in)
   return processed_image
