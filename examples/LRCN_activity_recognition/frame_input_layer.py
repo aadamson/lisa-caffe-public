@@ -48,7 +48,6 @@ def processImageCrop(im_info, transformer, flow):
   if im_rotate != 0.:
     rows = im_reshape[0]
     cols = im_reshape[1]
-    M = cv2.getRotationMatrix2D((cols/2,rows/2),im_rotate,1)
     data_in = scipy.ndimage.interpolation.rotate(data_in,im_rotate,reshape=False)
 
   processed_image = transformer.preprocess('data_in',data_in)
