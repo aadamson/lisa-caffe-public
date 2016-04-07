@@ -1,50 +1,26 @@
 name: "singleFrame_RGB"
 layer {
   name: "data"
-  type: "ImageData"
+  type: "Python"
   top: "data"
   top: "label"
-  include {
-    phase: TRAIN
+  python_param {
+    module: "frame_input_layer"
+    layer: "frameReadTrain_RGB"
   }
-  transform_param {
-    mirror: true
-    crop_size: 224
-    mean_value: 104
-    mean_value: 117
-    mean_value: 123
-  }
-  image_data_param {
-    source: "data/bu4dfe_frame_lab_train.txt"
-    root_folder: "frames/"
-    batch_size: 64
-    new_height: 240
-    new_width: 320
-  }
+  include: { phase: TRAIN }
 }
+
 layer {
   name: "data"
-  type: "ImageData"
+  type: "Python"
   top: "data"
   top: "label"
-  include {
-    phase: TEST
-    stage: "test-on-test"
+  python_param {
+    module: "frame_input_layer"
+    layer: "frameReadTest_RGB"
   }
-  transform_param {
-    mirror: true
-    crop_size: 224
-    mean_value: 104
-    mean_value: 117
-    mean_value: 123
-  }
-  image_data_param {
-    source: "data/bu4dfe_frame_lab_test.txt"
-    root_folder: "frames/"
-    batch_size: 64
-    new_height: 240
-    new_width: 320
-  }
+  include: { phase: TEST stage: "test-on-test" }
 }
 layer {
   name: "conv1"
