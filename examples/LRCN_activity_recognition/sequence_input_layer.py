@@ -81,6 +81,7 @@ class sequenceGeneratorVideo(object):
       label = self.video_dict[key]['label']
       video_reshape = self.video_dict[key]['reshape']
       video_crop = self.video_dict[key]['crop']
+      expression_frames = self.video_dict[key]['expression_frames']
       label_r.extend([label]*self.clip_length)
 
       im_reshape.extend([(video_reshape)]*self.clip_length)
@@ -89,9 +90,14 @@ class sequenceGeneratorVideo(object):
       im_crop.extend([(r0, r1, r0+video_crop[0], r1+video_crop[1])]*self.clip_length)     
       f = random.randint(0,1)
       im_flip.extend([f]*self.clip_length)
-      rand_frame = random.randint(0, self.video_dict[key]['num_frames'] - self.clip_length - 1)
 
-      frames = [self.video_dict[key]['frames'][i] for i in range(rand_frame,rand_frame+self.clip_length)]
+      frames = None
+      while frames is None:
+        rand_frame = random.randint(0, self.video_dict[key]['num_frames'] - self.clip_length - 1)
+
+        frames = [self.video_dict[key]['frames'][i] for i in range(rand_frame,rand_frame+self.clip_length)]
+        if len(set(frames).intersection(expression_frames)) == 0:
+          frames = None
      
       im_paths.extend(frames) 
     
@@ -152,17 +158,25 @@ class videoRead(caffe.Layer):
     for ix, line in enumerate(f_lines):
       video = line.split(' ')[0]
       l = int(line.split(' ')[1])
+      
       video_dir = '%s%s/*.jpg' % (self.path_to_images, video)
       frames = glob.glob(video_dir)
       num_frames = len(frames)
+
+      expression_frames = frames
+      if len(line.split(' ')) > 2:
+        expression_frames = [frames[int(idx)] for idx in line.split(' ')[2:]]
+
       if num_frames == 0 or num_frames < train_frames + 2:
         continue
+
       video_dict[video] = {}
       video_dict[video]['frames'] = frames
       video_dict[video]['reshape'] = (image_height,image_width)
       video_dict[video]['crop'] = (crop_size, crop_size)
       video_dict[video]['num_frames'] = num_frames
       video_dict[video]['label'] = l
+      video_dict[video]['expression_frames'] = expression_frames
       self.video_order.append(video) 
 
     self.video_dict = video_dict
@@ -298,7 +312,7 @@ class videoReadTrain_RGB(videoRead):
     self.height = crop_size
     self.width = crop_size
     self.path_to_images = RGB_frames 
-    self.video_list = 'data/ckp_bu4dfe_seq_lab_test.txt' 
+    self.video_list = 'data/bu4dfe_seq_lab_train.txt' 
 
 class videoReadTest_RGB(videoRead):
 
@@ -313,4 +327,4 @@ class videoReadTest_RGB(videoRead):
     self.height = crop_size
     self.width = crop_size
     self.path_to_images = RGB_frames 
-    self.video_list = 'data/ckp_bu4dfe_seq_lab_test.txt' 
+    self.video_list = 'data/bu4dfe_seq_lab_test.txt' 
