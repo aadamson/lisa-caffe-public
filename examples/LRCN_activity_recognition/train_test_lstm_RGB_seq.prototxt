@@ -473,6 +473,7 @@ layer {
   top: "accuracy"
   accuracy_param {
     axis: 2
+    top_k: 1
   }
 }
 layer {
@@ -483,5 +484,6 @@ layer {
   top: "accuracy"
   accuracy_param {
     axis: 2
+    top_k: 3
   }
 }
