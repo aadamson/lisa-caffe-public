@@ -466,7 +466,17 @@ layer {
   }
 }
 layer {
-  name: "accuracy"
+  name: "top-1"
+  type: "Accuracy"
+  bottom: "fc8-final"
+  bottom: "label-seq"
+  top: "accuracy"
+  accuracy_param {
+    axis: 2
+  }
+}
+layer {
+  name: "top-3"
   type: "Accuracy"
   bottom: "fc8-final"
   bottom: "label-seq"
