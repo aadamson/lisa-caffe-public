@@ -481,7 +481,7 @@ layer {
   type: "Accuracy"
   bottom: "fc8-final"
   bottom: "label-seq"
-  top: "accuracy"
+  top: "top-3"
   accuracy_param {
     axis: 2
     top_k: 3
