@@ -24,8 +24,8 @@ import scipy
 
 flow_frames = 'flow_images/'
 RGB_frames = 'frames'
-test_buffer = 8
-train_buffer = 32
+test_buffer = 1
+train_buffer = 64
 crop_size = 224
 image_height = 320
 image_width = 240
