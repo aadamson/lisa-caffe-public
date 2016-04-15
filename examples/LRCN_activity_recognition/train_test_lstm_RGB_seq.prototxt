@@ -315,7 +315,7 @@ layer{
   }
   include: { phase: TEST stage: "test-on-test" }
 }
-layer{
+layer {
   name: "reshape-label"
   type: "Reshape"
   bottom: "label"
@@ -340,6 +340,23 @@ layer{
     }
   }
   include: { phase: TEST stage: "test-on-test" }
+}
+layer {
+  ## Slice the label tensor so we access the sequence level label
+  name: "slice-label"
+  type: "Slice"
+  bottom: "reshape-label"
+  top: "label-seq" ## 1 x N
+  top: "label-0"
+  slice_param{
+    axis: 0
+    slice_point: 1
+  }
+}
+layer {
+  name: "silence-label"
+  type: "Silence"
+  bottom: "label-0"
 }
 layer{
   name: "reshape-cm"
@@ -396,9 +413,26 @@ layer {
   }
 }
 layer {
+  ## Slice the LSTM output so we can access just the output of the last unit
+  name: "slice-lstm1"
+  type: "Slice"
+  bottom: "lstm1-drop" ## T x N x D
+  top: "lstm1-0:T" 
+  top: "lstm1-seq" ## 1 x N x D
+  slice_param{
+    axis: 0
+    slice_point: 15
+  }
+}
+layer {
+  name: "silence-lstm1"
+  type: "Silence"
+  bottom: "lstm1-0:T"
+}
+layer {
   name: "fc8-final"
   type: "InnerProduct"
-  bottom: "lstm1-drop"
+  bottom: "lstm1-seq"
   top: "fc8-final"
   param {
     lr_mult: 10
@@ -425,7 +459,7 @@ layer {
   name: "loss"
   type: "SoftmaxWithLoss"
   bottom: "fc8-final"
-  bottom: "reshape-label"
+  bottom: "label-seq"
   top: "loss"
   softmax_param {
     axis: 2
@@ -435,7 +469,7 @@ layer {
   name: "accuracy"
   type: "Accuracy"
   bottom: "fc8-final"
-  bottom: "reshape-label"
+  bottom: "label-seq"
   top: "accuracy"
   accuracy_param {
     axis: 2

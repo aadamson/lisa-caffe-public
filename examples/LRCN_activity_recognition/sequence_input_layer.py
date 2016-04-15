@@ -22,7 +22,7 @@ import skimage.io
 import copy
 
 flow_frames = 'flow_images/'
-RGB_frames = 'frames/'
+RGB_frames = 'frames'
 test_frames = 16 
 train_frames = 16
 test_buffer = 1

@@ -1,4 +1,4 @@
-net: "train_test_lstm_RGB.prototxt"
+net: "train_test_lstm_RGB_seq.prototxt"
 test_iter: 1000
 test_state: { stage: 'test-on-test' }
 test_initialization: false
@@ -12,7 +12,7 @@ max_iter: 30000
 momentum: 0.9
 weight_decay: 0.005
 snapshot: 1000
-snapshot_prefix: "snapshots_lstm_RGB"
+snapshot_prefix: "snapshots_lstm_RGB_seq"
 solver_mode: GPU
 device_id: 0
 random_seed: 1701

@@ -1,7 +1,7 @@
 net: "train_test_singleFrame_RGB.prototxt"
 test_iter: 25 
 test_state: { stage: 'test-on-test' }
-test_initialization: false
+test_initialization: true
 test_interval: 500
 base_lr: 0.001
 lr_policy: "step"
@@ -13,6 +13,6 @@ momentum: 0.9
 weight_decay: 0.005  
 snapshot: 500
 snapshot_prefix: "snapshots_singleFrame_RGB"
-solver_mode: GPU
+solver_mode: CPU
 device_id: 0 
 random_seed: 1701
